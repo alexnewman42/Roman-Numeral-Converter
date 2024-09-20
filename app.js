@@ -1,74 +1,50 @@
-const inputField = document.getElementById("#number");
-const convertBtn = document.getElementById("#convert-btn");
-const outputField = document.getElementById("#output");
-let romanNumString = 0;
+const input = document.getElementById("number");
+const convert = document.getElementById("convert-btn");
+const output = document.getElementById("output");
 
-const convert = (num) => {
-    if (num = 0) {
-        outputField.innerText = "Please enter a valid number";
-    } else if (num < 0) {
-        outputField.innerText = "Please enter a number greater than or equal to 1";
-    } else if (num >= 4000 ) {
-        outputField.innerText = "Please enter a number less than or equal to 3999";
+const numerals = [
+    ["M", 1000],
+    ["CM", 900],
+    ["D", 500],
+    ["CD", 400],
+    ["C", 100],
+    ["XC", 90],
+    ["L", 50],
+    ["XL", 40],
+    ["X", 10],
+    ["IX", 9],
+    ["V", 5],
+    ["IV", 4],
+    ["I", 1]
+]
+
+input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+        convert.click();
     }
+});
 
-    if (num >= 1000) {
-        romanNumString += "M";
-        num -= 1000;
-        convert(num);
-    } else if (num >= 900) {
-        romanNumString += "CM";
-        num -= 900;
-        convert(num);
-    } else if (num >= 500) {
-        romanNumString += "D";
-        num -= 500;
-        convert(num);
-    } else if (num >= 400) {
-        romanNumString += "CD";
-        num -= 400;
-        convert(num);
-    } else if (num >= 100) {
-        romanNumString += "C";
-        num -= 100;
-        convert(num);
-    } else if (num >= 90) {
-        romanNumString += "XC";
-        num -= 90;
-        convert(num);
-    } else if (num >= 50) {
-        romanNumString += "L";
-        num -= 50;
-        convert(num);
-    } else if (num >= 40) {
-        romanNumString += "XL";
-        num -= 40;
-        convert(num);
-    } else if (num >= 10) {
-        romanNumString += "X";
-        num -= 10;
-        convert(num);
-    } else if (num >= 9) {
-        romanNumString += "IX";
-        num -= 9;
-        convert(num);
-    } else if (num >= 5) {
-        romanNumString += "V";
-        num -= 5;
-        convert(num);
-    } else if (num >= 4) {
-        romanNumString += "IV";
-        num -= 4;
-        convert(num);
-    } else if (num >= 1) {
-        romanNumString += "I";
-        num -= 1;
-        convert(num);
+convert.addEventListener("click", () => {
+    let value = input.value;
+    if (!value) {
+        output.innerText = "Please enter a valid number";
+    } else if (value === 0) {
+        output.innerText = "Please enter a valid number";
+    } else if (value < 0) {
+        output.innerText = "Please enter a number greater than or equal to 1";
+    } else if (value >= 4000 ) {
+        output.innerText = "Please enter a number less than or equal to 3999";
     } else {
-        outputField.innerText = romanNumString;
+        let result = "";
+
+        for (const [roman,number] of numerals) {
+            while (number < value) {
+                result += roman;
+                value -= number;
+            }
+            output.innerText = result;
+        }
     }
 
-};
 
-
-convertBtn.onclick = convert(inputField.innerText);
+});
